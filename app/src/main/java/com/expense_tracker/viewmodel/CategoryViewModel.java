@@ -1,7 +1,10 @@
 package com.expense_tracker.viewmodel;
 
+import androidx.lifecycle.LiveData;
+
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.repository.categoryRepository;
+import com.expense_tracker.models.CategoryResponse;
 import com.expense_tracker.models.DataInsertResponse;
 import com.google.gson.JsonObject;
 
@@ -34,6 +37,14 @@ public class CategoryViewModel {
             }
         });
     }
+
+    public LiveData<CategoryResponse> getAllCategory(String userId){
+        return  catRepo.getAllCategory(userId);
+    }
+
+
+
+
 
 
 }

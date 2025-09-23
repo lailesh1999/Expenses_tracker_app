@@ -1,5 +1,7 @@
 package com.expense_tracker.activity;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +19,14 @@ import androidx.core.view.WindowInsetsCompat;
 import com.expense_tracker.R;
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.local.PreferenceManager;
+import com.expense_tracker.models.CategoryResponse;
 import com.expense_tracker.models.DataInsertResponse;
+import com.expense_tracker.models.category;
 import com.expense_tracker.viewmodel.CategoryViewModel;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -27,6 +34,7 @@ public class CategoryActivity extends AppCompatActivity {
     private EditText categoryName;
      private Spinner categoryType;
      private CategoryViewModel categoryViewModel;
+     private List<category> categoryList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,7 +42,6 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_category);
-
         addCategory = findViewById(R.id.add_category_button);
         categoryName = findViewById(R.id.category_name);
         categoryType = findViewById(R.id.category_type_spinner);
@@ -48,16 +55,24 @@ public class CategoryActivity extends AppCompatActivity {
             categoryViewModel.addCategory(jsonBody, new onApiResponse<DataInsertResponse>() {
                 @Override
                 public void onSuccess(DataInsertResponse dataInsertResponse) {
-                    Toast.makeText(CategoryActivity.this,dataInsertResponse.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(CategoryActivity.this,dataInsertResponse.getMessage(), LENGTH_LONG).show();
                 }
-
                 @Override
                 public void onFailure(String message) {
-                    Toast.makeText(CategoryActivity.this,message,Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(CategoryActivity.this,message, LENGTH_LONG).show();
                 }
             });
         });
+        categoryViewModel.getAllCategory("101").observe(this, response->{
+            if(response.getCategories() != null){
+                // clear previous data to avoid duplicates
+                categoryList.clear();
+                categoryList.addAll(response.getCategories());
+            }
+            else{
+                Toast.makeText(this,"No data Found ",LENGTH_LONG).show();
+            }
+        } );
 
     }
 }
