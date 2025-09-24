@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.expense_tracker.CustomDialogs.CatgoryDialog;
 import com.expense_tracker.R;
 import com.expense_tracker.models.category;
 
@@ -23,8 +24,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context context;
 
 
-    public CategoryAdapter(List<category> categoryList){
+    public CategoryAdapter(List<category> categoryList,Context context){
         this.categoryList = categoryList;
+        this.context =context;
         Log.d("adapter1999", "inside the constructure");
     }
 
@@ -62,12 +64,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         ImageButton editBtn,deleteBtn;
         TextView categoryName,categoryType;
 
+        CatgoryDialog customDialog;
+
         public CategoryViewHolder( View itemView) {
             super(itemView);
             editBtn = itemView.findViewById(R.id.edit_button);
             deleteBtn = itemView.findViewById(R.id.delete_button);
             categoryName= itemView.findViewById(R.id.category_name_text_view);
             categoryType = itemView.findViewById(R.id.category_type_text_view);
+
+            editBtn.setOnClickListener(v->{
+                customDialog = new CatgoryDialog(v.getContext(), categoryName.getText().toString(),categoryType.getText().toString());
+                customDialog.show();
+            });
         }
     }
 }

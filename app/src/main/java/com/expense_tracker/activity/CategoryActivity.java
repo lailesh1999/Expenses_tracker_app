@@ -52,7 +52,7 @@ public class CategoryActivity extends AppCompatActivity {
         categoryType = findViewById(R.id.category_type_spinner);
         categoryViewModel = new CategoryViewModel();
 
-        adapter = new CategoryAdapter(categoryList);
+        adapter = new CategoryAdapter(categoryList,this);
         recyclerView = findViewById(R.id.category_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);

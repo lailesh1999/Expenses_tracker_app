@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/dialog_background">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Customize Category"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- Category Name Label -->
+    <TextView
+        android:id="@+id/category_name_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add new category name"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:paddingBottom="8dp" />
+
+    <!-- Category Name Input -->
+    <EditText
+        android:id="@+id/category_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter category name"
+        android:background="@drawable/edit_text_border"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Category Type Label -->
+    <TextView
+        android:id="@+id/category_type_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select category type"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:paddingBottom="8dp" />
+
+    <!-- Category Type Spinner -->
+    <Spinner
+        android:id="@+id/category_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/category_types"
+        android:background="@drawable/spinner_border"
+        android:padding="12dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Buttons Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- Cancel Button -->
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Cancel"
+            android:background="@drawable/button_outline"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:padding="12dp" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Save"
+            android:background="@drawable/button_filled"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
