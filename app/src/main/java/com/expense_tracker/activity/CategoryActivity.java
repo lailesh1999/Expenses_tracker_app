@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.expense_tracker.R;
+import com.expense_tracker.adapter.CategoryAdapter;
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.local.PreferenceManager;
 import com.expense_tracker.models.CategoryResponse;
@@ -34,9 +37,11 @@ public class CategoryActivity extends AppCompatActivity {
     private EditText categoryName;
      private Spinner categoryType;
      private CategoryViewModel categoryViewModel;
+    private RecyclerView recyclerView;
+    private CategoryAdapter adapter;
      private List<category> categoryList = new ArrayList<>();
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "NotifyDataSetChanged"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,12 @@ public class CategoryActivity extends AppCompatActivity {
         categoryName = findViewById(R.id.category_name);
         categoryType = findViewById(R.id.category_type_spinner);
         categoryViewModel = new CategoryViewModel();
+
+        adapter = new CategoryAdapter(categoryList);
+        recyclerView = findViewById(R.id.category_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.setAdapter(adapter);
+        displaycategory();
         Log.d("aa", PreferenceManager.getKeyUserId(CategoryActivity.this));
         addCategory.setOnClickListener(view -> {
             JsonObject jsonBody = new JsonObject();
@@ -56,6 +67,7 @@ public class CategoryActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DataInsertResponse dataInsertResponse) {
                     Toast.makeText(CategoryActivity.this,dataInsertResponse.getMessage(), LENGTH_LONG).show();
+                    displaycategory();
                 }
                 @Override
                 public void onFailure(String message) {
@@ -63,16 +75,26 @@ public class CategoryActivity extends AppCompatActivity {
                 }
             });
         });
+
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void displaycategory(){
         categoryViewModel.getAllCategory("101").observe(this, response->{
+            Log.d("adapter1999", "inside API call;");
             if(response.getCategories() != null){
                 // clear previous data to avoid duplicates
                 categoryList.clear();
                 categoryList.addAll(response.getCategories());
+                if (adapter != null) {
+                    adapter.updateCategoryList(categoryList);
+                    adapter.notifyDataSetChanged();
+                }
             }
             else{
                 Toast.makeText(this,"No data Found ",LENGTH_LONG).show();
             }
         } );
-
     }
 }
