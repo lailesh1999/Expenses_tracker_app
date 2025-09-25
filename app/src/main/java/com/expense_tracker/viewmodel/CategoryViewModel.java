@@ -46,6 +46,10 @@ public class CategoryViewModel {
         return  catRepo.deleteCategory(data);
     }
 
+    public LiveData<APIResponse> updateCategory(JsonObject data){
+        return  catRepo.updateCategory(data);
+    }
+
 
 
 

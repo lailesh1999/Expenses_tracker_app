@@ -4,13 +4,11 @@ import static android.widget.Toast.LENGTH_LONG;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.job.JobScheduler;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +18,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.expense_tracker.CustomDialogs.CatgoryDialog;
+import com.expense_tracker.listener.OnCategoryUpdatedListener;
 import com.expense_tracker.R;
 import com.expense_tracker.models.category;
 import com.expense_tracker.viewmodel.CategoryViewModel;
@@ -27,10 +26,12 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> implements OnCategoryUpdatedListener {
 
     private List<category> categoryList;
     private Context context;
+
+    private CatgoryDialog customDialog;
 
 
     public CategoryAdapter(List<category> categoryList,Context context){
@@ -39,6 +40,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Log.d("adapter1999", "inside the constructure");
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateCategoryList(List<category> newCategoryList) {
         this.categoryList = newCategoryList;
         Log.d("adapter1999", "inside the update list");
@@ -76,6 +78,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         });
 
+        holder.editBtn.setOnClickListener(v->{
+            customDialog = new CatgoryDialog(
+                    v.getContext(),
+                    holder.categoryName.getText().toString(),
+                    holder.categoryType.getText().toString(),
+                    categoryList.get(position),
+                    this::onCategoryUpdate,
+                    position
+                    );
+            customDialog.show();
+        });
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -96,12 +110,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categoryList.size();
     }
 
+    @Override
+    public void onCategoryUpdate(category category, int position) {
+        categoryList.set(position,category);
+        notifyItemChanged(position);
+    }
+
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
         ImageButton editBtn,deleteBtn;
         TextView categoryName,categoryType;
 
-        CatgoryDialog customDialog;
+
 
         public CategoryViewHolder( View itemView) {
             super(itemView);
@@ -110,10 +130,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             categoryName= itemView.findViewById(R.id.category_name_text_view);
             categoryType = itemView.findViewById(R.id.category_type_text_view);
 
-            editBtn.setOnClickListener(v->{
-                customDialog = new CatgoryDialog(v.getContext(), categoryName.getText().toString(),categoryType.getText().toString());
-                customDialog.show();
-            });
         }
     }
 }

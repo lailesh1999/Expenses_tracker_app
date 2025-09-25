@@ -76,6 +76,32 @@ public class categoryRepository {
         return deleteCategoryResponse;
     }
 
+    public  LiveData<APIResponse> updateCategory(JsonObject data){
+        Call<APIResponse> call = apiServices.updateCatgory(data);
+        call.enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+
+                if(response.body() != null && response.isSuccessful()) {
+                    deleteCategoryResponse.setValue(response.body());
+                }else{
+                    APIResponse error = new APIResponse();
+                    error.setMessage("Update  failed: " + response.code());
+                    deleteCategoryResponse.setValue(error);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                APIResponse error = new APIResponse();
+                error.setMessage("Delete failed: " + t.getMessage());
+                deleteCategoryResponse.setValue(error);
+            }
+        });
+
+        return  deleteCategoryResponse;
+    }
+
 
 
 }
