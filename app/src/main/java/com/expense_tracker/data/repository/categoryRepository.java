@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.remote.ApiServices;
 import com.expense_tracker.data.remote.RetrofitHelper;
+import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
-import com.expense_tracker.models.DataInsertResponse;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -20,11 +20,13 @@ public class categoryRepository {
 
     private MutableLiveData<CategoryResponse> categories = new MutableLiveData<>();
 
+    private MutableLiveData<APIResponse> deleteCategoryResponse = new MutableLiveData<>();
+
     public categoryRepository(){
         apiServices = RetrofitHelper.getRetrofitInstance().create(ApiServices.class);
     }
 
-    public Call<DataInsertResponse> addCategory(JsonObject data){
+    public Call<APIResponse> addCategory(JsonObject data){
         return  apiServices.addCategory(data);
     }
 
@@ -48,6 +50,30 @@ public class categoryRepository {
         });
 
         return categories;
+    }
+
+    public LiveData<APIResponse> deleteCategory(JsonObject jsonBody){
+    Call<APIResponse> call = apiServices.deleteCategory(jsonBody);
+    call.enqueue(new Callback<APIResponse>() {
+        @Override
+        public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+            if(response.isSuccessful() && response.body() != null){
+                deleteCategoryResponse.setValue(response.body());
+            }else{
+                APIResponse error = new APIResponse();
+                error.setMessage("Delete failed: " + response.code());
+                deleteCategoryResponse.setValue(error);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<APIResponse> call, Throwable t) {
+            APIResponse error = new APIResponse();
+            error.setMessage("Delete failed: " + t.getMessage());
+            deleteCategoryResponse.setValue(error);
+        }
+        });
+        return deleteCategoryResponse;
     }
 
 

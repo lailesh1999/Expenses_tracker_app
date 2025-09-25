@@ -22,8 +22,8 @@ import com.expense_tracker.R;
 import com.expense_tracker.adapter.CategoryAdapter;
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.local.PreferenceManager;
+import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
-import com.expense_tracker.models.DataInsertResponse;
 import com.expense_tracker.models.category;
 import com.expense_tracker.viewmodel.CategoryViewModel;
 import com.google.gson.JsonObject;
@@ -63,9 +63,9 @@ public class CategoryActivity extends AppCompatActivity {
             jsonBody.addProperty("UserId", PreferenceManager.getKeyUserId(CategoryActivity.this));
             jsonBody.addProperty("CategoryName",categoryName.getText().toString().trim());
             jsonBody.addProperty("CategoryType",categoryType.getSelectedItem().toString().trim());
-            categoryViewModel.addCategory(jsonBody, new onApiResponse<DataInsertResponse>() {
+            categoryViewModel.addCategory(jsonBody, new onApiResponse<APIResponse>() {
                 @Override
-                public void onSuccess(DataInsertResponse dataInsertResponse) {
+                public void onSuccess(APIResponse dataInsertResponse) {
                     Toast.makeText(CategoryActivity.this,dataInsertResponse.getMessage(), LENGTH_LONG).show();
                     displaycategory();
                 }

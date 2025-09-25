@@ -1,6 +1,6 @@
 package com.expense_tracker.models;
 
-public class DataInsertResponse {
+public class APIResponse {
 
 
     String message;

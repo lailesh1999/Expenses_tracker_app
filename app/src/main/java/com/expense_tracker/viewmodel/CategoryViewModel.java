@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 
 import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.repository.categoryRepository;
+import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
-import com.expense_tracker.models.DataInsertResponse;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -20,11 +20,11 @@ public class CategoryViewModel {
         catRepo =  new categoryRepository();
     }
 
-    public void addCategory(JsonObject data, onApiResponse<DataInsertResponse> onApiResponse){
-        Call<DataInsertResponse> call = catRepo.addCategory(data);
-        call.enqueue(new Callback<DataInsertResponse>() {
+    public void addCategory(JsonObject data, onApiResponse<APIResponse> onApiResponse){
+        Call<APIResponse> call = catRepo.addCategory(data);
+        call.enqueue(new Callback<APIResponse>() {
             @Override
-            public void onResponse(Call<DataInsertResponse> call, Response<DataInsertResponse> response) {
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     onApiResponse.onSuccess(response.body());
                 }else {
@@ -32,7 +32,7 @@ public class CategoryViewModel {
                 }
             }
             @Override
-            public void onFailure(Call<DataInsertResponse> call, Throwable t) {
+            public void onFailure(Call<APIResponse> call, Throwable t) {
                 onApiResponse.onFailure(t.getMessage());
             }
         });
@@ -40,6 +40,10 @@ public class CategoryViewModel {
 
     public LiveData<CategoryResponse> getAllCategory(String userId){
         return  catRepo.getAllCategory(userId);
+    }
+
+    public LiveData<APIResponse> deleteCategory(JsonObject data){
+        return  catRepo.deleteCategory(data);
     }
 
 
