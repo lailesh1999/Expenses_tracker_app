@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expense_tracker.R;
-import com.expense_tracker.activity.AddExpenses;
+import com.expense_tracker.activity.AddExpensesActivity;
 import com.expense_tracker.activity.CategoryActivity;
 import com.expense_tracker.data.local.PreferenceManager;
 
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment  {
         });
 
         btnAddExpenses.setOnClickListener(v->{
-            startActivity(new Intent(getContext(), AddExpenses.class));
+            startActivity(new Intent(getContext(), AddExpensesActivity.class));
         });
         return view;
     }

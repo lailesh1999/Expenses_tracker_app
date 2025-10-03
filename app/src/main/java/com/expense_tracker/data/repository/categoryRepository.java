@@ -8,7 +8,11 @@ import com.expense_tracker.data.remote.ApiServices;
 import com.expense_tracker.data.remote.RetrofitHelper;
 import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
+import com.expense_tracker.models.CategoryTypeName;
+import com.expense_tracker.models.CategoryTypeNameList;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,6 +25,8 @@ public class categoryRepository {
     private MutableLiveData<CategoryResponse> categories = new MutableLiveData<>();
 
     private MutableLiveData<APIResponse> deleteCategoryResponse = new MutableLiveData<>();
+
+    private MutableLiveData<List<CategoryTypeName>> categoryTypeNameMutableLiveData = new MutableLiveData<>();
 
     public categoryRepository(){
         apiServices = RetrofitHelper.getRetrofitInstance().create(ApiServices.class);
@@ -100,6 +106,27 @@ public class categoryRepository {
         });
 
         return  deleteCategoryResponse;
+    }
+
+    public LiveData<List<CategoryTypeName>> getAllCategoryTypename(String userID){
+        Call<CategoryTypeNameList> call = apiServices.getAllCategoryTypename(userID);
+        call.enqueue(new Callback<CategoryTypeNameList>() {
+            @Override
+            public void onResponse(Call<CategoryTypeNameList> call, Response<CategoryTypeNameList> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    categoryTypeNameMutableLiveData.setValue(response.body().getCategoryTypeNameList());
+                }
+                else{
+                    categoryTypeNameMutableLiveData.setValue(null);
+                }
+            }
+            @Override
+            public void onFailure(Call<CategoryTypeNameList> call, Throwable t) {
+                categoryTypeNameMutableLiveData.setValue(null);
+            }
+        });
+
+        return  categoryTypeNameMutableLiveData;
     }
 
 

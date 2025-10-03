@@ -6,7 +6,11 @@ import com.expense_tracker.data.callBacks.onApiResponse;
 import com.expense_tracker.data.repository.categoryRepository;
 import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
+import com.expense_tracker.models.CategoryTypeName;
+import com.expense_tracker.models.CategoryTypeNameList;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +52,10 @@ public class CategoryViewModel {
 
     public LiveData<APIResponse> updateCategory(JsonObject data){
         return  catRepo.updateCategory(data);
+    }
+
+    public  LiveData<List<CategoryTypeName>> getAllCategoryName(String userId){
+        return catRepo.getAllCategoryTypename(userId);
     }
 
 

@@ -2,6 +2,8 @@ package com.expense_tracker.data.remote;
 
 import com.expense_tracker.models.APIResponse;
 import com.expense_tracker.models.CategoryResponse;
+import com.expense_tracker.models.CategoryTypeName;
+import com.expense_tracker.models.CategoryTypeNameList;
 import com.expense_tracker.models.LoginResponse;
 import com.google.gson.JsonObject;
 
@@ -33,6 +35,11 @@ public interface ApiServices {
 
     @PUT("category/updateCategory.php")
     Call<APIResponse> updateCatgory(@Body JsonObject data);
+
+    @GET("category/getCategoryByName.php")
+    Call<CategoryTypeNameList> getAllCategoryTypename(
+            @Query("userId") String userId
+    );
 
 
 }
