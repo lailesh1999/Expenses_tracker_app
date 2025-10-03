@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,14 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker">
         <activity
+            android:name=".activity.AddExpenses"
+            android:exported="false" />
+        <activity
             android:name=".activity.CategoryActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true"

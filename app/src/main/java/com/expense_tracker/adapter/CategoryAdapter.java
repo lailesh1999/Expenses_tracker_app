@@ -106,7 +106,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public int getItemCount() {
-        Log.d("adapter1999", String.valueOf(categoryList.size()));
         return categoryList.size();
     }
 

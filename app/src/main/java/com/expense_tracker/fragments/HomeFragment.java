@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.expense_tracker.R;
+import com.expense_tracker.activity.AddExpenses;
 import com.expense_tracker.activity.CategoryActivity;
 import com.expense_tracker.data.local.PreferenceManager;
 
@@ -23,7 +24,7 @@ import java.util.TimeZone;
 public class HomeFragment extends Fragment  {
 
     private TextView greeting;
-    private Button btnAddCategory;
+    private Button btnAddCategory,btnAddExpenses;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +34,17 @@ public class HomeFragment extends Fragment  {
 
         greeting = view.findViewById(R.id.greeting);
         btnAddCategory = view.findViewById(R.id.btnAddCategory);
+        btnAddExpenses = view.findViewById(R.id.btnAddExpense);
 
 
         setGreetingMessage();
         btnAddCategory.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), CategoryActivity.class);
             startActivity(intent);
+        });
+
+        btnAddExpenses.setOnClickListener(v->{
+            startActivity(new Intent(getContext(), AddExpenses.class));
         });
         return view;
     }
