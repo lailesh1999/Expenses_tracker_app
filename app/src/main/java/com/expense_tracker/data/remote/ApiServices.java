@@ -41,5 +41,8 @@ public interface ApiServices {
             @Query("userId") String userId
     );
 
+    @POST("expenses/insertExpenses.php")
+    Call<APIResponse> addExpenses(@Body JsonObject data);
+
 
 }
